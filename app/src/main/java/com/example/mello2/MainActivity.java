@@ -25,17 +25,31 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
     static ArrayList<Music_files> music_files;
-
+    Fragment tracks;
+    Fragment artists;
+    Fragment playlists;
+    Fragment albums;
+    Fragment search;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission();
+        init_fragments();
         music_files= getAudio(this);
         BottomNavigationView navbar=findViewById(R.id.nav_bar);
         FrameLayout frameLayout = findViewById(R.id.frame);
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
+    }
+
+    void init_fragments (){
+        tracks=new Tracks();
+        artists= new Artists();
+        playlists=new Playlists();
+        albums=new Albums();
+        search=new Search();
+
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navL =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -44,19 +58,19 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selected = null;
                     switch (item.getItemId()) {
                         case R.id.Tracks:
-                            selected= new Tracks();
+                            selected=tracks;
                             break;
                         case R.id.artist:
-                            selected= new Artists();
+                            selected= artists;
                             break;
                         case R.id.playlist:
-                            selected= new Playlists();
+                            selected=playlists;
                             break;
                         case R.id.album:
-                            selected= new Albums();
+                            selected= albums;
                             break;
                         case R.id.search:
-                            selected= new Search();
+                            selected=search;
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame,selected).commit();

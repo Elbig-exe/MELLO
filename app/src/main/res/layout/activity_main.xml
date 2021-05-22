@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/nav_bar"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
+        app:itemIconTint="@drawable/bottom_navigation_selector"
         android:id="@+id/nav_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav"
-        android:background="@color/purple_700"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/purple_500"/>
+        android:background="@color/dark"
+        app:itemTextColor="@color/orange"
+        app:menu="@menu/bottom_nav" />
 </RelativeLayout>
