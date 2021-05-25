@@ -34,7 +34,8 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            context.startActivities(new Intent[]{new Intent(context,PlayerActivity.class)});
+            Intent intent= new Intent(context,PlayerActivity.class);
+            context.startActivities(new Intent[]{intent});
 
         }
     });
