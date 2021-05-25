@@ -21,7 +21,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="5dp"/>
+            android:layout_margin="15dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,6 +92,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:id="@+id/bottom"
         android:layout_alignParentBottom="true"
         android:background="@color/black"
         >
@@ -134,13 +135,45 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             />
-
-
-
-
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_above="@+id/bottom"
+        android:id="@+id/seekbar_layout"
+        android:layout_margin="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeplayed"
+            android:text="00:00"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/song_duration"
+            android:text="00:00"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="20dp"
+            android:textColor="@color/white"/>
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/seekbar"
+            android:layout_toRightOf="@+id/timeplayed"
+            android:layout_toLeftOf="@+id/song_duration"
+            android:progressBackgroundTint="@color/white"
+            android:thumbTint="@color/white"
+            />
 
 
     </RelativeLayout>
+
 
 
 
