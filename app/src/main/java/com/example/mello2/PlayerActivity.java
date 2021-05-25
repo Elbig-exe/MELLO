@@ -16,7 +16,7 @@ public class PlayerActivity extends AppCompatActivity {
     ImageView song_img, backbutton,menubutton,playbutton,next,previuse,shuffle,replaybn;
     SeekBar seekBar;
     ArrayList<Music_files> Songslist=new ArrayList<>();
-    int audio_index = 1;
+    int audio_index = 0;
     int position=1;
     private Uri uri;
     private MediaPlayer mediaPlayer;
@@ -26,20 +26,8 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-        Song_name=findViewById(R.id.Song_name);
-        Song_artist =findViewById(R.id.Song_artist);
-        timeplayed =findViewById(R.id.timeplayed);
-        song_duration =findViewById(R.id.song_duration);
-        song_img =findViewById(R.id.song_img);
-        backbutton =findViewById(R.id.backbutton);
-        menubutton =findViewById(R.id.more);
-        playbutton =findViewById(R.id.play_button);
-        next =findViewById(R.id.next);
-        previuse =findViewById(R.id.previuse);
-        shuffle= findViewById(R.id.shuffle);
-        replaybn=findViewById(R.id.replay);
-        seekBar=findViewById(R.id.seekbar);
-        getIntentMethod(audio_index);
+        initViews();
+        getIntentMethod();
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -60,14 +48,17 @@ public class PlayerActivity extends AppCompatActivity {
         });
     }
 
-    private void getIntentMethod(int pos) {
+    private void getIntentMethod() {
+        position=getIntent().getIntExtra("position",-1);
         Songslist= music_files;
         if (Songslist!=null){
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
             uri= Uri.parse(music_files.get(position).getPath());
+            mediaPlayer=MediaPlayer.create(getApplicationContext(),uri);
+            mediaPlayer.start();
+        }else {
             mediaPlayer=MediaPlayer.create(this,uri);
             mediaPlayer.start();
-            audio_index=pos;
         }
         seekBar.setMax(mediaPlayer.getDuration()/1000);
 
@@ -76,6 +67,19 @@ public class PlayerActivity extends AppCompatActivity {
 
 
     private void initViews(){
+        Song_name=findViewById(R.id.Song_name);
+        Song_artist =findViewById(R.id.Song_artist);
+        timeplayed =findViewById(R.id.timeplayed);
+        song_duration =findViewById(R.id.song_duration);
+        song_img =findViewById(R.id.song_img);
+        backbutton =findViewById(R.id.backbutton);
+        menubutton =findViewById(R.id.more);
+        playbutton =findViewById(R.id.play_button);
+        next =findViewById(R.id.next);
+        previuse =findViewById(R.id.previuse);
+        shuffle= findViewById(R.id.shuffle);
+        replaybn=findViewById(R.id.replay);
+        seekBar=findViewById(R.id.seekbar);
 
     }
 }
