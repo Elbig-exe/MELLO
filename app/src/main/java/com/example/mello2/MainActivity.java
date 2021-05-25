@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout frameLayout = findViewById(R.id.frame);
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
+
     }
 
     void init_fragments (){
@@ -59,19 +61,19 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selected = null;
                     switch (item.getItemId()) {
                         case R.id.Tracks:
-                            selected=tracks;
+                            selected=new Tracks();
                             break;
                         case R.id.artist:
-                            selected= artists;
+                            selected= new Artists();
                             break;
                         case R.id.playlist:
-                            selected=playlists;
+                            selected=new Playlists();
                             break;
                         case R.id.album:
-                            selected= albums;
+                            selected= new Albums();
                             break;
                         case R.id.search:
-                            selected=search;
+                            selected=new Search();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame,selected).commit();
@@ -115,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor=context.getContentResolver().query(uri,projection,null,null,null);
         if (cursor!=null){
             while (cursor.moveToNext()){
-                String album=cursor.getString(0);
-                String titel=cursor.getString(0);
-                String duration=cursor.getString(0);
-                String path=cursor.getString(0);
                 String artist=cursor.getString(0);
+                String album=cursor.getString(1);
+                String duration=cursor.getString(2);
+                String titel=cursor.getString(3);
+                String path=cursor.getString(4);
                 Music_files music_files= new Music_files(titel,duration,artist,path,album);
-                Log.e("Path"+path,"Album"+album);
+                Log.e("Music_list","  Album:"+album+"  title:"+titel+"  duration:"+ duration+"  artist:"+artist+"  path:"+path);
                 tempArrayList.add(music_files);
             }
             cursor.close();

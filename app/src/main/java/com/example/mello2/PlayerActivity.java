@@ -49,7 +49,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void getIntentMethod() {
-        position=getIntent().getIntExtra("position",-1);
+        position=getIntent().getIntExtra("position",1);
         Songslist= music_files;
         if (Songslist!=null){
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
