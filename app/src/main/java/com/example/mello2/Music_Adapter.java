@@ -1,6 +1,7 @@
 package com.example.mello2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHolder> {
     private Context context;
     private ArrayList<Music_files> music_files;
-Music_Adapter(Context context,ArrayList<Music_files> music_files){
+    Music_Adapter(Context context,ArrayList<Music_files> music_files){
     this.context=context;
     this.music_files=music_files;
 }
@@ -30,6 +31,14 @@ Music_Adapter(Context context,ArrayList<Music_files> music_files){
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
     holder.file_name.setText(music_files.get(position).getTitel());
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent= new Intent(context,PlayerActivity.class);
+            context.startActivity(intent);
+
+        }
+    });
     }
 
     @Override
@@ -38,11 +47,12 @@ Music_Adapter(Context context,ArrayList<Music_files> music_files){
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView file_name;
+        TextView file_name,artist_name;
         ImageView album_art;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             file_name= itemView.findViewById(R.id.title);
+            artist_name= itemView.findViewById(R.id.artist);
             album_art= itemView.findViewById(R.id.image);
         }
     }
