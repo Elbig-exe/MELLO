@@ -1,6 +1,8 @@
 package com.example.mello2;
 
 
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,12 +51,15 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void getIntentMethod() {
-        position=getIntent().getIntExtra("position",1);
+        position=getIntent().getIntExtra("position",-1);
         Songslist= music_files;
         if (Songslist!=null){
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
             uri= Uri.parse(music_files.get(position).getPath());
             mediaPlayer=MediaPlayer.create(getApplicationContext(),uri);
+            byte[] art = getAlbumArt(music_files.get(position).getPath());
+            song_img.setImageBitmap(BitmapFactory.decodeByteArray(art, 0, art.length));
+
             mediaPlayer.start();
         }else {
             mediaPlayer=MediaPlayer.create(this,uri);
@@ -65,6 +70,13 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
+    private byte[] getAlbumArt(String uri){
+        MediaMetadataRetriever retriever=new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] art=retriever.getEmbeddedPicture();
+        retriever.release();
+        return art;
+    }
 
     private void initViews(){
         Song_name=findViewById(R.id.Song_name);
