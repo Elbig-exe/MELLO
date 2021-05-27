@@ -93,11 +93,12 @@ public class PlayerActivity extends AppCompatActivity {
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
             uri = Uri.parse(music_files.get(position).getPath());
         }
-        if (mediaPlayer!=null){
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer=MediaPlayer.create(getApplicationContext(),uri);
-            mediaPlayer.start();}
+        if (mediaPlayer!=null) {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+                mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+                mediaPlayer.start();
+        }
         else {
             mediaPlayer=MediaPlayer.create(this,uri);
             mediaPlayer.start();
