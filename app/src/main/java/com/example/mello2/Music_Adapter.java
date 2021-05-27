@@ -12,11 +12,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHolder> {
     private Context context;
     private ArrayList<Music_files> music_files;
+
     Music_Adapter(Context context,ArrayList<Music_files> music_files){
     this.context=context;
     this.music_files=music_files;
@@ -32,6 +35,12 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
     holder.file_name.setText(music_files.get(position).getTitel());
     holder.artist_name.setText(music_files.get(position).getArtist());
+    byte []image =getAlbumArt(music_files.get(position).getPath());
+    if (image!=null){
+        Glide.with(context).load(image).into(holder.album_art);
+    }else {
+        Glide.with(context).load(R.drawable.ic_baseline_person_24).into(holder.album_art);
+    }
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -65,4 +74,5 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
         retriever.release();
         return art;
     }
+
 }

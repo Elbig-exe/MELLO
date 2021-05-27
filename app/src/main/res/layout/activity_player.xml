@@ -56,26 +56,26 @@
             android:src="@drawable/ic_baseline_person_24"
             android:background="@color/white"
             android:id="@+id/song_img"
-            android:scaleType="centerCrop"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:id="@+id/great"
-            android:background="@drawable/playertop"
-            android:layout_alignParentBottom="true"
+            android:scaleType="centerCrop"
             />
 
 
     </RelativeLayout>
     <TextView
+        android:ellipsize = "marquee"
+        android:fadingEdge = "horizontal"
+        android:marqueeRepeatLimit = "marquee_forever"
+        android:scrollHorizontally = "true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Song name"
         android:id="@+id/Song_name"
-        android:textSize="30dp"
+        android:textSize="24sp"
         android:layout_below="@+id/song_art"
         android:textColor="@color/white"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="15dp"
         android:textStyle="bold"
         android:singleLine="true"/>
     <TextView
@@ -83,10 +83,10 @@
         android:layout_height="wrap_content"
         android:text="The artist"
         android:id="@+id/Song_artist"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:layout_below="@+id/Song_name"
         android:textColor="@color/white"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="15dp"
         android:textStyle="bold"
         android:singleLine="true"/>
     <RelativeLayout
