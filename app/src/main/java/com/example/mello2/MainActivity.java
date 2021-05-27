@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout frameLayout = findViewById(R.id.frame);
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
-       /* MusicDatabase db = Room.databaseBuilder(getApplicationContext(),
+        /*MusicDatabase db = Room.databaseBuilder(getApplicationContext(),
                 MusicDatabase.class, "musicDb").build();
         SongDao songDao=db.songDao();
         Song song=new Song();
