@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -43,7 +44,12 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout frameLayout = findViewById(R.id.frame);
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
-
+       /* MusicDatabase db = Room.databaseBuilder(getApplicationContext(),
+                MusicDatabase.class, "musicDb").build();
+        SongDao songDao=db.songDao();
+        Song song=new Song();
+        song.path=music_files.get(1).getPath();
+        songDao.insertAll(song);*/
     }
 
     void init_fragments (){
@@ -123,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 String titel=cursor.getString(3);
                 String path=cursor.getString(4);
                 Music_files music_files= new Music_files(titel,duration,artist,path,album);
-                Log.e("Music_list","  Album:"+album+"  title:"+titel+"  duration:"+ duration+"  artist:"+artist+"  path:"+path);
+                //Log.e("Music_list","  Album:"+album+"  title:"+titel+"  duration:"+ duration+"  artist:"+artist+"  path:"+path);
                 tempArrayList.add(music_files);
             }
             cursor.close();
