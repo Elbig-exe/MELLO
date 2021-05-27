@@ -31,10 +31,12 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
     holder.file_name.setText(music_files.get(position).getTitel());
+    holder.artist_name.setText(music_files.get(position).getArtist());
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Intent intent= new Intent(context,PlayerActivity.class);
+            intent.putExtra("position",position);
             context.startActivity(intent);
 
         }
