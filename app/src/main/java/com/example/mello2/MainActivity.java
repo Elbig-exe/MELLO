@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
     static ArrayList<Music_files> music_files;
+    public static boolean shuffle=false,repeat=false;
     Fragment tracks;
     Fragment artists;
     Fragment playlists;
