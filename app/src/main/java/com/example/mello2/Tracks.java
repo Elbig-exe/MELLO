@@ -23,6 +23,7 @@ public class Tracks extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_tracks, container, false);
         recyclerView= view.findViewById(R.id.recycler_view);
+
         recyclerView.setHasFixedSize(true);
         if (!(music_files.size()<1)){
             music_adapter=new Music_Adapter(getContext(),music_files);

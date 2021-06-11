@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static com.example.mello2.MainActivity.player;
+
 public class PlayerActivity extends AppCompatActivity {
     TextView Song_name, Song_artist,timeplayed,song_duration;
     ImageView song_img, backbutton,menubutton,playbutton,next,previuse,shuffle,replaybn;
@@ -22,12 +24,12 @@ public class PlayerActivity extends AppCompatActivity {
     private Uri uri;
     private Handler handler=new Handler();
     private Thread prevth,nextth,playth;
-    private SongEng player;
+   // private SongEng player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        player=new SongEng(this);
+        //player.setContext(this);
         setContentView(R.layout.activity_player);
         initViews();//initialises text views and image views
         itializePlayer();//initialises the media player with the current song and starts it

@@ -22,6 +22,9 @@ public class SongEng {
         songslist=music_files;
         this.context=context;
     }
+    void setContext(Context context){
+        this.context=context;
+    }
     boolean setCurrentSong(int position){
         songPosition=position;
         if (songslist!=null) {//setting the current song
@@ -32,11 +35,11 @@ public class SongEng {
     }
 
     void startSong(){
-            if (mediaPlayer != null) {
-                mediaPlayer.stop();
-                mediaPlayer.release();
-            }
-            mediaPlayer = MediaPlayer.create(context, currentUri);
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
+        mediaPlayer = MediaPlayer.create(context, currentUri);
         mediaPlayer.start();
         paused=false;
     }

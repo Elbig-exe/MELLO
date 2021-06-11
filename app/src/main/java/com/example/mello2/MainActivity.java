@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
     static ArrayList<Music_files> music_files;
+    public static SongEng player;
     public static boolean shuffle=false,repeat=false;
     Fragment tracks;
     Fragment artists;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout frameLayout = findViewById(R.id.frame);
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
+        player=new SongEng(this);
+
     }
 
     void init_fragments (){
