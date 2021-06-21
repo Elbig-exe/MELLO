@@ -34,7 +34,7 @@
             android:textSize="20dp"
             tools:ignore="NotSibling"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:maxLines="1"/>
 
         <TextView

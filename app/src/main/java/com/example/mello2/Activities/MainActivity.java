@@ -1,15 +1,19 @@
-package com.example.mello2;
+package com.example.mello2.Activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,13 +22,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.example.mello2.Fragments.Albums;
+import com.example.mello2.Fragments.Artists;
+import com.example.mello2.Fragments.Playlists;
+import com.example.mello2.Fragments.Search;
+import com.example.mello2.Fragments.Tracks;
+import com.example.mello2.Music_files;
+import com.example.mello2.R;
+import com.example.mello2.SongEng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+import static com.example.mello2.SongEng.mediaPlayer;
+
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
-    static ArrayList<Music_files> music_files;
+    public static ArrayList<Music_files> music_files;
     public static SongEng player;
     public static boolean shuffle=false,repeat=false;
     Fragment tracks;
@@ -32,11 +47,18 @@ public class MainActivity extends AppCompatActivity {
     Fragment playlists;
     Fragment albums;
     Fragment search;
+    public static ImageView art_album,playbtn,skipbtn,settingbtn;
+    public static TextView name_song,name_artist;
+    public static RelativeLayout relativeLayout;
+    public static FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission();
+        init_views();
+        relativeLayout.setVisibility(View.GONE);
         init_fragments();
         music_files= getAudio(this);
         BottomNavigationView navbar=findViewById(R.id.nav_bar);
@@ -54,6 +76,37 @@ public class MainActivity extends AppCompatActivity {
         albums=new Albums();
         search=new Search();
 
+    }
+    void init_views(){
+        art_album= findViewById(R.id.art_album);
+        playbtn= findViewById(R.id.playbutton);
+        skipbtn= findViewById(R.id.skipbutton);
+        name_artist= findViewById(R.id.name_artist);
+        name_song= findViewById(R.id.name_song);
+        relativeLayout= findViewById(R.id.shortcut);
+        frameLayout= findViewById(R.id.frame);
+        settingbtn=findViewById(R.id.settings_button);
+    }
+    public void playbtn(View view){
+        if(mediaPlayer.isPlaying()){
+            player.pause();
+            playbtn.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
+        }else {
+            player.resume();
+            playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        }
+    }
+    public void skip(View view){
+        player.playNext();
+        byte[] bytes= player.getArt();
+        Glide.with(this).asBitmap().load(bytes).into(art_album);
+        name_song.setText(player.getSongName());
+        name_artist.setText(player.getArtistName());
+        playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+    }
+    public void setting(View view){
+        Intent intent= new Intent(this, SettingsActivity.class);
+        this.startActivity(intent);
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navL =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -131,5 +184,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return tempArrayList;
     }
+    public void song_details(View view){
+        Intent intent= new Intent(this, PlayerActivity.class);
+        intent.putExtra("position",player.getCurrentSong());
+        this.startActivity(intent);
+
+    }
+
 
 }

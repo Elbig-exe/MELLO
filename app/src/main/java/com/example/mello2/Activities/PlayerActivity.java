@@ -1,24 +1,33 @@
-package com.example.mello2;
+package com.example.mello2.Activities;
 
 
+import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.mello2.R;
 
-import java.util.ArrayList;
+import static com.example.mello2.Activities.MainActivity.art_album;
+import static com.example.mello2.Activities.MainActivity.name_artist;
+import static com.example.mello2.Activities.MainActivity.name_song;
+import static com.example.mello2.Activities.MainActivity.playbtn;
+import static com.example.mello2.Activities.MainActivity.player;
+import static com.example.mello2.SongEng.mediaPlayer;
 
-import static com.example.mello2.MainActivity.player;
-
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
     TextView Song_name, Song_artist,timeplayed,song_duration;
-    ImageView song_img, backbutton,menubutton,playbutton,next,previuse,shuffle,replaybn;
+    public static ImageView song_img, backbutton,menubutton,playbutton,next,previuse,shuffle,replaybn;
     SeekBar seekBar;
     int position=1;
     private Uri uri;
@@ -34,8 +43,11 @@ public class PlayerActivity extends AppCompatActivity {
         initViews();//initialises text views and image views
         itializePlayer();//initialises the media player with the current song and starts it
         initSeekBarFunctionality();
+        mediaPlayer.setOnCompletionListener(this);
+
     }
     void initSeekBarFunctionality(){
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -80,9 +92,7 @@ public class PlayerActivity extends AppCompatActivity {
     //sets up the current song and starts it
     private void itializePlayer() {
         position=getIntent().getIntExtra("position",1);
-        player.setCurrentSong(position);
         playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
-        player.startSong();
         initVisuals();
     }
     private void initViews(){
@@ -107,32 +117,40 @@ public class PlayerActivity extends AppCompatActivity {
         seekBar.setMax(player.getSongDuration());
         song_duration.setText(formatedText(player.getSongDuration()));
         byte[] art=player.getArt();
-        if (art!=null){
-            Glide.with(this).asBitmap().load(art).into(song_img);
-        } else {
-            Glide.with(this).asBitmap().load(R.drawable.ic_baseline_person_24).into(song_img);
-        }
+        imageAnimation(this,song_img,art);
     }
 
     private void nextClicked() {
         player.playNext();
         initVisuals();
-            playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        byte[] bytes= player.getArt();
+        imageAnimation(this,song_img,bytes);
+        name_song.setText(player.getSongName());
+        name_artist.setText(player.getArtistName());
+        imageAnimation(this,art_album,bytes);
     }
 
     private void previousClicked() {
         player.playPrevious();
         initVisuals();
         playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+        byte[] bytes= player.getArt();
+        imageAnimation(this,song_img,bytes);
+        name_song.setText(player.getSongName());
+        name_artist.setText(player.getArtistName());
+        imageAnimation(this,art_album,bytes);
     }
 
     private void playButtonClicked() {
         if(player.isPaused()){
             player.resume();
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+            playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
         }else{
             player.pause();
             playbutton.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
+            playbtn.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
         }
     }
 
@@ -145,6 +163,8 @@ public class PlayerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         previousClicked();
+                        name_song.setText(player.getSongName());
+                        name_artist.setText(player.getArtistName());
                     }
                 });
             }
@@ -160,6 +180,8 @@ public class PlayerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         nextClicked();
+                        name_song.setText(player.getSongName());
+                        name_artist.setText(player.getArtistName());
                     }
                 });
             }
@@ -175,7 +197,10 @@ public class PlayerActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         playButtonClicked();
+
+
                     }
+
                 });
             }
         };
@@ -188,4 +213,49 @@ public class PlayerActivity extends AppCompatActivity {
         nextthbtn();
         super.onResume();
     }
+    public void imageAnimation(Context context, ImageView imageView, byte[] bytes) {
+        Animation aniout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+        aniout.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if (bytes != null) {
+                    Glide.with(context).asBitmap().load(bytes).into(imageView);
+                } else {
+                    Glide.with(context).asBitmap().load(R.drawable.ic_baseline_person_24).into(imageView);
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+
+        imageView.startAnimation(aniout);
+
+
+    }
+
+
+    @Override
+        public void onCompletion(MediaPlayer mp) {
+            nextClicked();
+            if(mediaPlayer!=null){
+                mediaPlayer.start();
+                mediaPlayer.setOnCompletionListener(this);
+                playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+            }
+            name_song.setText(player.getSongName());
+            name_artist.setText(player.getArtistName());
+            imageAnimation(this,art_album,player.getArt());
+        }
+
 }
+
+

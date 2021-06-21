@@ -1,7 +1,6 @@
-package com.example.mello2;
+package com.example.mello2.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.mello2.Music_files;
+import com.example.mello2.R;
 
 import java.util.ArrayList;
+
+import static com.example.mello2.Activities.MainActivity.art_album;
+import static com.example.mello2.Activities.MainActivity.name_artist;
+import static com.example.mello2.Activities.MainActivity.name_song;
+import static com.example.mello2.Activities.MainActivity.playbtn;
+import static com.example.mello2.Activities.MainActivity.player;
+import static com.example.mello2.Activities.MainActivity.relativeLayout;
 
 public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHolder> {
     private Context context;
     private ArrayList<Music_files> music_files;
 
-    Music_Adapter(Context context,ArrayList<Music_files> music_files){
+
+
+    public Music_Adapter(Context context, ArrayList<Music_files> music_files){
     this.context=context;
     this.music_files=music_files;
-}
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,9 +54,13 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent= new Intent(context,PlayerActivity.class);
-            intent.putExtra("position",position);
-            context.startActivity(intent);
+            //Intent intent= new Intent(context, PlayerActivity.class);
+            //intent.putExtra("position",position);
+            init_shortcut(image,music_files.get(position).getTitel(),music_files.get(position).getArtist());
+            //context.startActivity(intent);
+            player.setCurrentSong(position);
+            player.startSong();
+            playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
 
         }
     });
@@ -73,6 +87,16 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
         byte[] art=retriever.getEmbeddedPicture();
         retriever.release();
         return art;
+    }
+    void init_shortcut(byte[] bytes,String s,String s2){
+        relativeLayout.setVisibility(View.VISIBLE);
+        if (bytes!=null){
+            Glide.with(context).load(bytes).into(art_album);
+        }else {
+            Glide.with(context).load(R.drawable.ic_baseline_music_note_24).into(art_album);
+        }
+        name_song.setText(s);
+        name_artist.setText(s2);
     }
 
 }

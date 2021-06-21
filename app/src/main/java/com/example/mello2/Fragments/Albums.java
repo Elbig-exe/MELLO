@@ -1,4 +1,4 @@
-package com.example.mello2;
+package com.example.mello2.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.example.mello2.MainActivity.music_files;
+import com.example.mello2.Adapters.Album_Adapter;
+import com.example.mello2.R;
+
+import static com.example.mello2.Activities.MainActivity.music_files;
 
 public class Albums extends Fragment {
     RecyclerView recyclerView;

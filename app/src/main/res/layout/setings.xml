@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_weight="1"
-    android:background="@color/dark">
+    android:background="@color/dark"
+    android:id="@+id/settings">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,10 +18,10 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="20dp"
+                android:layout_margin="10dp"
                 android:baselineAligned="false"
                 android:gravity="center|start"
                 android:orientation="horizontal">
@@ -28,26 +29,38 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    app:cardCornerRadius="@android:dimen/thumbnail_width">
+                    app:cardCornerRadius="100dp"
+                    android:id="@+id/card_view"
+                    >
 
                     <ImageView
-                        android:id="@+id/imageView2"
+                        android:id="@+id/user_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:srcCompat="@tools:sample/avatars" />
+                        tools:srcCompat="@drawable/ic_baseline_person_24" />
                 </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="Name"
+                    android:text="User_name"
                     android:textColor="@android:color/background_light"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@id/card_view"
+                    android:layout_centerVertical="true"/>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
 
-            </LinearLayout>
+                    android:src="@drawable/ic_baseline_edit_24"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/edit_info"/>
+
+            </RelativeLayout>
 
             <View
                 android:id="@+id/view"
@@ -58,7 +71,6 @@
                 android:background="@color/dark" />
 
             <TextView
-                android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
@@ -75,11 +87,11 @@
                 android:orientation="horizontal">
 
                 <Switch
-                    android:id="@+id/switch2"
+                    android:id="@+id/dark_mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Theme"
+                    android:text="Dark mode"
                     android:textColor="@android:color/background_light"
                     android:textSize="20sp" />
 
@@ -108,7 +120,7 @@
                     android:layout_weight="1"
                     android:text="Randomness"
                     android:textColor="@android:color/background_light"
-                    android:textSize="20sp" />
+                    android:textSize="18dp" />
 
                 <SeekBar
                     android:id="@+id/seekBar2"
@@ -133,7 +145,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/play_gap"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -169,7 +181,7 @@
                     android:orientation="horizontal">
 
                     <Switch
-                        android:id="@+id/switch1"
+                        android:id="@+id/private_session"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -208,7 +220,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/help"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -226,7 +238,7 @@
                 android:background="@color/dark" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/feedback"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -244,7 +256,7 @@
                 android:background="@color/dark" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/info"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

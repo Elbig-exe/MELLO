@@ -1,4 +1,4 @@
-package com.example.mello2;
+package com.example.mello2.Adapters;
 
 import android.content.Context;
 import android.media.MediaMetadataRetriever;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.mello2.Music_files;
+import com.example.mello2.R;
 
 import java.util.ArrayList;
 

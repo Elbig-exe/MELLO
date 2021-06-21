@@ -1,4 +1,4 @@
-package com.example.mello2;
+package com.example.mello2.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.mello2.R;
 
 public class Artists extends Fragment {
 

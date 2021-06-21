@@ -4,15 +4,18 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import static com.example.mello2.MainActivity.music_files;
+import static com.example.mello2.Activities.MainActivity.music_files;
 
 public class SongEng {
     private ArrayList<Music_files> songslist;
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     private Uri currentUri;
     private Context context;
     private boolean paused=false;
@@ -25,7 +28,7 @@ public class SongEng {
     void setContext(Context context){
         this.context=context;
     }
-    boolean setCurrentSong(int position){
+    public boolean setCurrentSong(int position){
         songPosition=position;
         if (songslist!=null) {//setting the current song
             currentUri = Uri.parse(music_files.get(position).getPath());
@@ -33,8 +36,11 @@ public class SongEng {
         }
         return false;
     }
+    public int getCurrentSong(){
+        return songPosition;
+    }
 
-    void startSong(){
+    public void startSong(){
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -43,46 +49,46 @@ public class SongEng {
         mediaPlayer.start();
         paused=false;
     }
-    void seekTo(int sec){
+    public void seekTo(int sec){
         mediaPlayer.seekTo(sec*1000);
     }
-    int getProgress(){
+    public int getProgress(){
         if(mediaPlayer!=null){
             return mediaPlayer.getCurrentPosition()/1000;
         }
         return 0;
     }
-    int getSongDuration(){
+    public int getSongDuration(){
         if(mediaPlayer!=null) {
             return Integer.parseInt(songslist.get(songPosition).getDuration()) / 1000;
         }
         return 0;
     }
-    String getSongName(){
+    public String getSongName(){
         return songslist.get(songPosition).getTitel();
     }
-    String getArtistName(){
+    public String getArtistName(){
         return songslist.get(songPosition).getArtist();
     }
-    void playNext(){
+    public void playNext(){
         songPosition= (songPosition+1) % songslist.size();
         setCurrentSong(songPosition);
         startSong();
     }
-    void playPrevious(){
+    public void playPrevious(){
         songPosition= (songPosition-1) <0? (songslist.size()-1):(songPosition-1);
         setCurrentSong(songPosition);
         startSong();
     }
-    void pause(){
+    public void pause(){
         mediaPlayer.pause();
         paused=true;
     }
-    void resume(){
+    public void resume(){
         mediaPlayer.start();
         paused=false;
     }
-    byte[] getArt(){
+    public byte[] getArt(){
         MediaMetadataRetriever retriever= new MediaMetadataRetriever();
         retriever.setDataSource(currentUri.toString());
         byte[] art=retriever.getEmbeddedPicture();
@@ -93,8 +99,55 @@ public class SongEng {
             return null;
         }
     }
-    boolean isPaused(){
+    public boolean isPaused(){
         return paused;
+    }
+    public void imageAnimation(Context context, ImageView imageView, byte[] bytes){
+        Animation aniout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+        Animation aniin = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        aniout.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (bytes!=null){
+                    Glide.with(context).asBitmap().load(bytes).into(imageView);}
+                else {
+                    Glide.with(context).asBitmap().load(R.drawable.ic_baseline_person_24).into(imageView);
+                }
+                aniin.setAnimationListener(new Animation.AnimationListener() {
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        imageView.startAnimation(aniout);
+
+
     }
 
 }
