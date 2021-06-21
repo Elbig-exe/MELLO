@@ -11,18 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MELLO2.dark">
+        <activity android:name=".Activities.Album_details_activity"></activity>
         <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".Activities.MainActivity"></activity>
-        <activity android:name=".Activities.PlayerActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-
-        </activity>
+            android:parentActivityName=".Activities.MainActivity" />
+        <activity
+            android:name=".Activities.PlayerActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"></activity>
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

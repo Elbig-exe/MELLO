@@ -1,6 +1,7 @@
 package com.example.mello2.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.mello2.Activities.Album_details_activity;
 import com.example.mello2.Music_files;
 import com.example.mello2.R;
 
@@ -45,7 +47,14 @@ public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.MyHolder> 
         }else {
             Glide.with(context).load(R.drawable.ic_baseline_album_24).into(holder.album_img);
         }
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(context, Album_details_activity.class);
+                intent.putExtra("Albumname",album_files.get(position).getAlbum());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,5 +78,9 @@ public class Album_Adapter extends RecyclerView.Adapter<Album_Adapter.MyHolder> 
         byte[] art=retriever.getEmbeddedPicture();
         retriever.release();
         return art;
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

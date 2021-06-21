@@ -213,7 +213,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         nextthbtn();
         super.onResume();
     }
-    public void imageAnimation(Context context, ImageView imageView, byte[] bytes) {
+    public static void imageAnimation(Context context, ImageView imageView, byte[] bytes) {
         Animation aniout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
         aniout.setAnimationListener(new Animation.AnimationListener() {
             @Override
