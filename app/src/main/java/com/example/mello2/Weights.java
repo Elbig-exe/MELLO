@@ -11,11 +11,12 @@ import androidx.room.PrimaryKey;
         parentColumns = "path",
         childColumns = "topath",
         onDelete = ForeignKey.CASCADE)
-})
+},primaryKeys = {"path","topath"})
+
 public class Weights{
-    @PrimaryKey
     @NonNull
     public String path;
     public float weight;
+    @NonNull
     public String topath;
 }

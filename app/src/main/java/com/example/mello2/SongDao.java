@@ -12,11 +12,11 @@ public interface SongDao {
     @Query("SELECT * FROM Song")
     List<Song> getAll();
 
-    @Query("SELECT * FROM Song WHERE path IN (:songIds)")
-    List<Song> loadAllByIds(int[] songIds);
-
     @Insert
     void insertAll(Song... songs);
+
+    @Insert
+    void insert(Song song);
 
     @Delete
     void delete(Song song);
