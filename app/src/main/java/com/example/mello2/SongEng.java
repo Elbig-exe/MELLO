@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.example.mello2.MainActivity.db;
-import static com.example.mello2.MainActivity.music_files;
+import static com.example.mello2.Activities.MainActivity.db;
+import static com.example.mello2.Activities.MainActivity.music_files;
 
 public class SongEng {
     private ArrayList<Music_files> songslist;
@@ -35,7 +35,7 @@ public class SongEng {
         return ((float)(1 / (1 + Math.exp(-x))));
     }
 
-    void setRandomLevel(float rand){
+    public void setRandomLevel(float rand){
         this.randomLevel=rand;
     }
 
@@ -52,8 +52,11 @@ public class SongEng {
         this.context=context;
 
     }
+    public int getCurrentSong(){
+        return songPosition;
+    }
 
-    boolean setCurrentSong(int position){
+    public boolean setCurrentSong(int position){
         new Thread(()-> {
             weights=db.getWeightsForSong(songslist.get(songPosition).getPath());
         }).start();
@@ -61,7 +64,7 @@ public class SongEng {
         //db.printWeightsForSong(songslist.get(position).getPath());
         songPosition=position;
         if (songslist!=null) {//setting the current song
-            currentUri = Uri.parse(music_files.get(position).getPath());
+            currentUri = Uri.parse(songslist.get(position).getPath());
             return true;
         }
         return false;
@@ -98,29 +101,29 @@ public class SongEng {
         paused=false;
     }
 
-    void seekTo(int sec){
+    public void seekTo(int sec){
         mediaPlayer.seekTo(sec*1000);
     }
 
-    int getProgress(){
+    public int getProgress(){
         if(mediaPlayer!=null){
             return mediaPlayer.getCurrentPosition()/1000;
         }
         return 0;
     }
 
-    int getSongDuration(){
+    public int getSongDuration(){
         if(mediaPlayer!=null) {
             return Integer.parseInt(songslist.get(songPosition).getDuration()) / 1000;
         }
         return 0;
     }
 
-    String getSongName(){
+    public String getSongName(){
         return songslist.get(songPosition).getTitel();
     }
 
-    String getArtistName(){
+    public String getArtistName(){
         return songslist.get(songPosition).getArtist();
     }
 
@@ -162,7 +165,7 @@ public class SongEng {
         }
     }
 
-    void playNext(){
+    public void playNext(){
         if(shuffle){
             playNextRand();
         }else{
@@ -172,23 +175,23 @@ public class SongEng {
         startSong();
     }
 
-    void playPrevious(){
+    public void playPrevious(){
         songPosition= (songPosition-1) <0? (songslist.size()-1):(songPosition-1);
         setCurrentSong(songPosition);
         startSong();
     }
 
-    void pause(){
+    public void pause(){
         mediaPlayer.pause();
         paused=true;
     }
 
-    void resume(){
+    public void resume(){
         mediaPlayer.start();
         paused=false;
     }
 
-    byte[] getArt(){
+    public byte[] getArt(){
         MediaMetadataRetriever retriever= new MediaMetadataRetriever();
         retriever.setDataSource(currentUri.toString());
         byte[] art=retriever.getEmbeddedPicture();
@@ -199,7 +202,7 @@ public class SongEng {
             return null;
         }
     }
-    boolean isPaused(){
+    public boolean isPaused(){
         return paused;
     }
 

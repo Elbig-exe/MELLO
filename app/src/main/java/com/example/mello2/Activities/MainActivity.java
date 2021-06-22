@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.mello2.DatabaseEng;
 import com.example.mello2.Fragments.Albums;
 import com.example.mello2.Fragments.Artists;
 import com.example.mello2.Fragments.Playlists;
@@ -35,7 +36,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import static com.example.mello2.SongEng.mediaPlayer;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     public static TextView name_song,name_artist;
     public static RelativeLayout relativeLayout;
     public static FrameLayout frameLayout;
-
+    public static DatabaseEng db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         navbar.setOnNavigationItemSelectedListener(navL);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,new Tracks()).commit();
         player=new SongEng(this);
+        db=new DatabaseEng(this);
+        db.fillDatabase(music_files);
 
     }
 
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         settingbtn=findViewById(R.id.settings_button);
     }
     public void playbtn(View view){
-        if(mediaPlayer.isPlaying()){
+        if(!player.isPaused()){
             player.pause();
             playbtn.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
         }else {
