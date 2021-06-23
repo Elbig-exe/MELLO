@@ -1,9 +1,12 @@
 package com.example.mello2;
 
 import android.content.Context;
+import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
 import androidx.room.Room;
+
+import com.example.mello2.Databases.MusicDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,6 +155,50 @@ public class DatabaseEng{
             wdaw.updateWeights(w);
 
         }).start();
+    }
+
+    private String getName(ArrayList<Music_files> mf,String path){
+
+        for(int i=0;i<mf.size();i++){
+            if(mf.get(i).getPath().equals(path)){
+                return mf.get(i).getAlbum();
+            }
+        }
+        return null;
+    }
+    private byte[] getArtFor(String path){
+        MediaMetadataRetriever retriever= new MediaMetadataRetriever();
+        retriever.setDataSource(path);
+        byte[] art=retriever.getEmbeddedPicture();
+        if (art!=null){
+            return art;
+        }
+        else {
+            return null;
+        }
+    }
+    public ArrayList<Album_files>getAlbums(ArrayList<Music_files> mf){
+        ArrayList<Album_files> albumFiles =new ArrayList<Album_files>();
+        List<Song> songs =songDao.getAll();
+        for(int i = 0; i< albumFiles.size(); i++){
+            Album_files al=new Album_files();
+            al.name=getName(mf,songs.get(i).path);
+            al.art=getArtFor(songs.get(i).path);
+            if(!albumFiles.contains(al)){
+                albumFiles.add(al);
+            }
+        }
+        return albumFiles;
+    }
+
+    public ArrayList<Music_files> getSongsInAlbum(ArrayList<Music_files> mf,String name){
+        ArrayList<Music_files> result=new ArrayList<Music_files>();
+        for(int i=0;i<mf.size();i++){
+            if(mf.get(i).getAlbum().equals(name)){
+                result.add(mf.get(i));
+            }
+        }
+        return result;
     }
 }
 
