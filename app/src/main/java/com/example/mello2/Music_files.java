@@ -1,6 +1,8 @@
 package com.example.mello2;
 
-public class Music_files {
+import java.util.ArrayList;
+
+public class Music_files extends ArrayList<Music_files> {
     private String titel;
     private String duration;
     private String artist;

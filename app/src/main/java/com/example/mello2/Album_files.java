@@ -3,7 +3,6 @@ package com.example.mello2;
 public class Album_files {
     byte[] art;
     String name;
-
     public byte[] getArt(){
         return art;
     }

@@ -1,6 +1,6 @@
-package com.example.mello2.Activities;
+ package com.example.mello2.Activities;
 
-import android.Manifest;
+ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,13 +35,15 @@ import com.example.mello2.SongEng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import static com.example.mello2.Adapters.Music_Adapter.init_shortcut;
+import static com.example.mello2.SongEng.mediaPlayer;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUAST=1;
     public static ArrayList<Music_files> music_files;
     public static SongEng player;
-    public static boolean shuffle=false,repeat=false;
     Fragment tracks;
     Fragment artists;
     Fragment playlists;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment search;
     public static ImageView art_album,playbtn,skipbtn,settingbtn;
     public static TextView name_song,name_artist;
-    public static RelativeLayout relativeLayout;
+    public static RelativeLayout relativeLayout,playshuffelbutton;
     public static FrameLayout frameLayout;
     public static DatabaseEng db;
     @Override
@@ -79,18 +81,20 @@ public class MainActivity extends AppCompatActivity {
         search=new Search();
 
     }
-    void init_views(){
-        art_album= findViewById(R.id.art_album);
-        playbtn= findViewById(R.id.playbutton);
-        skipbtn= findViewById(R.id.skipbutton);
-        name_artist= findViewById(R.id.name_artist);
-        name_song= findViewById(R.id.name_song);
-        relativeLayout= findViewById(R.id.shortcut);
-        frameLayout= findViewById(R.id.frame);
-        settingbtn=findViewById(R.id.settings_button);
+    void init_views() {
+        art_album = findViewById(R.id.album_art_short);
+        playbtn = findViewById(R.id.play_button_short);
+        skipbtn = findViewById(R.id.skip_button_short);
+        name_artist = findViewById(R.id.artist_short);
+        name_song = findViewById(R.id.Song_name_short);
+        relativeLayout = findViewById(R.id.shortcut);
+        frameLayout = findViewById(R.id.frame);
+        settingbtn = findViewById(R.id.settings_button);
+        playshuffelbutton = findViewById(R.id.shuffle_btn);
     }
+
     public void playbtn(View view){
-        if(!player.isPaused()){
+        if(mediaPlayer.isPlaying()){
             player.pause();
             playbtn.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
         }else {
@@ -101,7 +105,11 @@ public class MainActivity extends AppCompatActivity {
     public void skip(View view){
         player.playNext();
         byte[] bytes= player.getArt();
-        Glide.with(this).asBitmap().load(bytes).into(art_album);
+        if (bytes!=null){
+            Glide.with(this).asBitmap().load(bytes).into(art_album);
+        }else
+            Glide.with(this).asBitmap().load(R.drawable.ic_baseline_music_note_24).into(art_album);
+
         name_song.setText(player.getSongName());
         name_artist.setText(player.getArtistName());
         playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
@@ -190,8 +198,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent= new Intent(this, PlayerActivity.class);
         intent.putExtra("position",player.getCurrentSong());
         this.startActivity(intent);
+    }
+        public void playshuffel(View view){
+            randomplay();
+            init_shortcut(player.getArt(),player.getSongName(),player.getArtistName());
+            player.setShuffle(true);
+
+        }
+        public void randomplay(){
+        int randomplay= new Random().nextInt(music_files.size()) ;
+        player.setSongslist(music_files);
+        player.setCurrentSong(randomplay);
+        player.startSong();
+        }
 
     }
-
-
-}

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mello2.Adapters.Album_Adapter;
 import com.example.mello2.R;
 
+import static com.example.mello2.Activities.MainActivity.db;
 import static com.example.mello2.Activities.MainActivity.music_files;
 
 public class Albums extends Fragment {
@@ -28,7 +29,7 @@ public class Albums extends Fragment {
         recyclerView= view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         if (!(music_files.size()<1)){
-            album_adapter=new Album_Adapter(getContext(),music_files);
+            album_adapter=new Album_Adapter(getContext(), db.getAlbums(music_files));
             recyclerView.setAdapter(album_adapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         }

@@ -3,58 +3,75 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark">
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        app:cardCornerRadius="10dp"
-        android:id="@+id/card">
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:id="@+id/album_art"
-            android:src="@drawable/ic_baseline_music_note_24"
-            android:background="@color/white"/>
-    </androidx.cardview.widget.CardView>
-
-        <TextView
+    android:background="@color/dark"
+    android:id="@+id/shortcut_holder">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/Song_name"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="10dp"
+            android:id="@+id/card">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:id="@+id/album_art_short"
+                android:src="@drawable/ic_baseline_music_note_24"
+                />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Song_name_short"
             android:layout_toRightOf="@+id/card"
             android:text="song name"
             android:layout_marginLeft="10dp"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:layout_marginTop="5dp"
+            android:maxLines="1"
             />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/artist"
-        android:text="Artist"
-        android:layout_below="@id/Song_name"
-        android:layout_toRightOf="@+id/card"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        />
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/play_button"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_baseline_play_circle_filled_24"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="10dp"/>
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/skip_button"
-        android:src="@drawable/ic_baseline_skip_next_24"
-        android:layout_marginTop="15dp"
-        android:layout_toLeftOf="@+id/play_button"
-        android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/artist_short"
+            android:text="Artist"
+            android:layout_below="@id/Song_name_short"
+            android:layout_toRightOf="@+id/card"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            />
+
+        <ImageView
+            android:id="@+id/play_button_short"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:onClick="playbtn"
+            android:src="@drawable/ic_baseline_pause_circle_filled_24" />
+
+        <ImageView
+            android:id="@+id/skip_button_short"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/play_button_short"
+            android:onClick="skip"
+            android:src="@drawable/ic_baseline_skip_next_24" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/playertop"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+
 </RelativeLayout>

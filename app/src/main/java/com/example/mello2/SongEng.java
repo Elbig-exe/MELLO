@@ -4,6 +4,9 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -16,7 +19,7 @@ import static com.example.mello2.Activities.MainActivity.music_files;
 
 public class SongEng {
     private ArrayList<Music_files> songslist;
-    private MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     private Uri currentUri;
     private Context context;
     private float learningRate;
@@ -26,7 +29,16 @@ public class SongEng {
     float randomLevel;
     int songPosition=-1;
     boolean shuffle;
-
+    boolean replay;
+    public boolean isReplaing(){
+        return replay;
+    }
+    public void setReplay(boolean b){
+        this.replay=b;
+    }
+    public boolean isShuffling(){
+        return shuffle;
+    }
     public void setShuffle(boolean shuffle){
         this.shuffle=shuffle;
     }
@@ -44,7 +56,15 @@ public class SongEng {
         chosenWeight=null;
         learningRate=0.3f;
         randomLevel=0.1f;
-        shuffle=true;
+        shuffle=false;
+        this.context=context;
+    }
+    public SongEng(Context context,ArrayList<Music_files> list){
+        songslist=list;
+        chosenWeight=null;
+        learningRate=0.3f;
+        randomLevel=0.1f;
+        shuffle=false;
         this.context=context;
     }
 
@@ -83,6 +103,7 @@ public class SongEng {
     }
 
     boolean setCurrentSong(String path){
+
         songPosition=getPositionOfSong(path);
         if (songslist!=null) {//setting the current song
             currentUri = Uri.parse(path);
@@ -91,7 +112,7 @@ public class SongEng {
         return false;
     }
 
-    void startSong(){
+    public void startSong(){
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -100,29 +121,24 @@ public class SongEng {
         mediaPlayer.start();
         paused=false;
     }
-
     public void seekTo(int sec){
         mediaPlayer.seekTo(sec*1000);
     }
-
     public int getProgress(){
         if(mediaPlayer!=null){
             return mediaPlayer.getCurrentPosition()/1000;
         }
         return 0;
     }
-
     public int getSongDuration(){
         if(mediaPlayer!=null) {
             return Integer.parseInt(songslist.get(songPosition).getDuration()) / 1000;
         }
         return 0;
     }
-
     public String getSongName(){
         return songslist.get(songPosition).getTitel();
     }
-
     public String getArtistName(){
         return songslist.get(songPosition).getArtist();
     }
@@ -166,13 +182,13 @@ public class SongEng {
     }
 
     public void playNext(){
-        if(shuffle){
-            playNextRand();
-        }else{
-            songPosition= (songPosition+1) % songslist.size();
-            setCurrentSong(songPosition);
-        }
-        startSong();
+            if(shuffle){
+                playNextRand();
+            }else{
+                songPosition= (songPosition+1) % songslist.size();
+                setCurrentSong(songPosition);
+            }
+            startSong();
     }
 
     public void playPrevious(){
@@ -205,5 +221,56 @@ public class SongEng {
     public boolean isPaused(){
         return paused;
     }
+    public void imageAnimation(Context context, ImageView imageView, byte[] bytes){
+        Animation aniout = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+        Animation aniin = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        aniout.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (bytes!=null){
+                    Glide.with(context).asBitmap().load(bytes).into(imageView);}
+                else {
+                    Glide.with(context).asBitmap().load(R.drawable.ic_baseline_person_24).into(imageView);
+                }
+                aniin.setAnimationListener(new Animation.AnimationListener() {
+
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        imageView.startAnimation(aniout);
+
+
+    }
+
+    public void setSongslist(ArrayList<Music_files> songslist) {
+        chosenWeight=null;
+        this.songslist = songslist;
+    }
 }

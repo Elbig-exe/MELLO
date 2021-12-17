@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -27,7 +26,8 @@ import static com.example.mello2.SongEng.mediaPlayer;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
     TextView Song_name, Song_artist,timeplayed,song_duration;
-    public static ImageView song_img, backbutton,menubutton,playbutton,next,previuse,shuffle,replaybn;
+    public  ImageView song_img, backbutton,menubutton,playbutton,next,previuse,replaybn;
+    public static ImageView shuffle;
     SeekBar seekBar;
     int position=1;
     private Uri uri;
@@ -44,6 +44,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         itializePlayer();//initialises the media player with the current song and starts it
         initSeekBarFunctionality();
         mediaPlayer.setOnCompletionListener(this);
+        if (player.isShuffling()){
+            shuffle.setImageResource(R.drawable.ic_baseline_shuffle_24_on);
+        }
 
     }
     void initSeekBarFunctionality(){
@@ -100,7 +103,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         Song_artist =findViewById(R.id.Song_artist);
         timeplayed =findViewById(R.id.timeplayed);
         song_duration =findViewById(R.id.song_duration);
-        song_img =findViewById(R.id.song_img);
+        song_img =findViewById(R.id.art);
         backbutton =findViewById(R.id.backbutton);
         menubutton =findViewById(R.id.more);
         playbutton =findViewById(R.id.play_button);
@@ -117,7 +120,12 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         seekBar.setMax(player.getSongDuration());
         song_duration.setText(formatedText(player.getSongDuration()));
         byte[] art=player.getArt();
-        imageAnimation(this,song_img,art);
+        if (art!=null){
+            Glide.with(getApplicationContext()).load(art).into(song_img);
+        }else {
+            Glide.with(getApplicationContext()).load(R.drawable.ic_baseline_music_note_24).into(song_img);
+        }
+
     }
 
     private void nextClicked() {
@@ -125,10 +133,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         initVisuals();
         playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
         byte[] bytes= player.getArt();
-        imageAnimation(this,song_img,bytes);
+        if (bytes!=null){
+            Glide.with(getApplicationContext()).load(bytes).into(song_img);
+        }else {
+            Glide.with(getApplicationContext()).load(R.drawable.ic_baseline_music_note_24).into(song_img);
+        }
         name_song.setText(player.getSongName());
         name_artist.setText(player.getArtistName());
-        imageAnimation(this,art_album,bytes);
+        if (bytes!=null){
+            Glide.with(getApplicationContext()).load(bytes).into(art_album);
+        }else {
+            Glide.with(getApplicationContext()).load(R.drawable.ic_baseline_music_note_24).into(art_album);
+        }
+        mediaPlayer.setOnCompletionListener(this);
     }
 
     private void previousClicked() {
@@ -136,10 +153,15 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         initVisuals();
         playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
         byte[] bytes= player.getArt();
-        imageAnimation(this,song_img,bytes);
+        if (bytes!=null){
+            Glide.with(getApplicationContext()).load(bytes).into(song_img);
+        }else {
+            Glide.with(getApplicationContext()).load(R.drawable.ic_baseline_music_note_24).into(song_img);
+        }
         name_song.setText(player.getSongName());
         name_artist.setText(player.getArtistName());
         imageAnimation(this,art_album,bytes);
+        mediaPlayer.setOnCompletionListener(this);
     }
 
     private void playButtonClicked() {
@@ -147,10 +169,12 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             player.resume();
             playbutton.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
             playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
+
         }else{
             player.pause();
             playbutton.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
             playbtn.setImageResource(R.drawable.ic_baseline_play_circle_filled_24);
+
         }
     }
 
@@ -198,7 +222,6 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                     public void onClick(View v) {
                         playButtonClicked();
 
-
                     }
 
                 });
@@ -218,11 +241,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         aniout.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                if (bytes != null) {
-                    Glide.with(context).asBitmap().load(bytes).into(imageView);
-                } else {
-                    Glide.with(context).asBitmap().load(R.drawable.ic_baseline_person_24).into(imageView);
-                }
+
             }
 
             @Override
@@ -232,11 +251,13 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
+                if (bytes != null) {
+                    Glide.with(context).asBitmap().load(bytes).into(imageView);
+                } else {
+                    Glide.with(context).asBitmap().load(R.drawable.ic_baseline_music_note_24).into(imageView);
+                }
             }
         });
-
-
         imageView.startAnimation(aniout);
 
 
@@ -245,6 +266,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     @Override
         public void onCompletion(MediaPlayer mp) {
+        if (!player.isReplaing()){
             nextClicked();
             if(mediaPlayer!=null){
                 mediaPlayer.start();
@@ -254,8 +276,31 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             name_song.setText(player.getSongName());
             name_artist.setText(player.getArtistName());
             imageAnimation(this,art_album,player.getArt());
+        }else {
+            player.setCurrentSong(player.getCurrentSong());
+            player.startSong();
+        }
         }
 
-}
+        public void shuffutClicked(View view){
+        if (!player.isShuffling()){
+            player.setShuffle(true);
+            shuffle.setImageResource(R.drawable.ic_baseline_shuffle_24_on);
+        }else {
+            player.setShuffle(false);
+            shuffle.setImageResource(R.drawable.ic_baseline_shuffle_24);
+        }
+        }
+        public void replayClicked(View view){
+            if (!player.isReplaing()){
+                player.setReplay(true);
+                replaybn.setImageResource(R.drawable.ic_baseline_repeat_one_24);
+            }else {
+                player.setReplay(false);
+
+                replaybn.setImageResource(R.drawable.ic_baseline_repeat_24);
+            }
+        }
+    }
 
 

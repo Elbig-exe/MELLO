@@ -25,7 +25,7 @@ import static com.example.mello2.Activities.MainActivity.player;
 import static com.example.mello2.Activities.MainActivity.relativeLayout;
 
 public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHolder> {
-    private Context context;
+    private static Context context;
     private ArrayList<Music_files> music_files;
 
 
@@ -54,14 +54,11 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
     holder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //Intent intent= new Intent(context, PlayerActivity.class);
-            //intent.putExtra("position",position);
-            init_shortcut(image,music_files.get(position).getTitel(),music_files.get(position).getArtist());
-            //context.startActivity(intent);
+            player.setSongslist(music_files);
             player.setCurrentSong(position);
             player.startSong();
             playbtn.setImageResource(R.drawable.ic_baseline_pause_circle_filled_24);
-
+            init_shortcut(player.getArt(),music_files.get(position).getTitel(),music_files.get(position).getArtist());
         }
     });
     }
@@ -88,7 +85,7 @@ public class Music_Adapter extends RecyclerView.Adapter<Music_Adapter.MyViewHold
         retriever.release();
         return art;
     }
-    void init_shortcut(byte[] bytes,String s,String s2){
+    public static void init_shortcut(byte[] bytes,String s,String s2){
         relativeLayout.setVisibility(View.VISIBLE);
         if (bytes!=null){
             Glide.with(context).load(bytes).into(art_album);

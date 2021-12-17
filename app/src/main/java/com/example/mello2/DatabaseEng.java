@@ -166,6 +166,14 @@ public class DatabaseEng{
         }
         return null;
     }
+    private String getartist(ArrayList<Music_files> mf,String path){
+        for(int i=0;i<mf.size();i++){
+            if(mf.get(i).getPath().equals(path)){
+                return mf.get(i).getArtist();
+            }
+        }
+        return null;
+    }
     private byte[] getArtFor(String path){
         MediaMetadataRetriever retriever= new MediaMetadataRetriever();
         retriever.setDataSource(path);
@@ -179,11 +187,11 @@ public class DatabaseEng{
     }
     public ArrayList<Album_files>getAlbums(ArrayList<Music_files> mf){
         ArrayList<Album_files> albumFiles =new ArrayList<Album_files>();
-        List<Song> songs =songDao.getAll();
-        for(int i = 0; i< albumFiles.size(); i++){
+
+        for(int i = 0; i< mf.size(); i++){
             Album_files al=new Album_files();
-            al.name=getName(mf,songs.get(i).path);
-            al.art=getArtFor(songs.get(i).path);
+            al.name=getName(mf,mf.get(i).getPath());
+            al.art=getArtFor(mf.get(i).getPath());
             if(!albumFiles.contains(al)){
                 albumFiles.add(al);
             }
@@ -191,6 +199,27 @@ public class DatabaseEng{
         return albumFiles;
     }
 
+    public ArrayList<Artists_files> getArtists(ArrayList<Music_files> mf){
+        ArrayList<Artists_files> artistsFiles =new ArrayList<Artists_files>();
+        for(int i = 0; i< mf.size(); i++) {
+            Artists_files al = new Artists_files();
+            al.artist = getartist(mf, mf.get(i).getPath());
+            al.art = getArtFor(mf.get(i).getPath());
+            if (!artistsFiles.contains(al)) {
+                artistsFiles.add(al);
+            }
+        }
+        return artistsFiles;
+    }
+    public ArrayList<Music_files> getSongsofArtist(ArrayList<Music_files> mf,String name){
+        ArrayList<Music_files> result=new ArrayList<Music_files>();
+        for(int i=0;i<mf.size();i++){
+            if(mf.get(i).getArtist().equals(name)){
+                result.add(mf.get(i));
+            }
+        }
+        return result;
+    }
     public ArrayList<Music_files> getSongsInAlbum(ArrayList<Music_files> mf,String name){
         ArrayList<Music_files> result=new ArrayList<Music_files>();
         for(int i=0;i<mf.size();i++){

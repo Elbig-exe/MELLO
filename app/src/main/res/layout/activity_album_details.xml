@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Album_details_activity"
+    tools:context=".Activities.Album_details"
     android:background="@color/dark">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,7 +12,8 @@
         android:layout_weight = "0.6"
         android:id="@+id/toolbar_Albums"
         android:padding = "10dp"
-        android:background="@drawable/action_bar_shape">
+        android:background="@drawable/action_bar_shape"
+        >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,81 +78,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/dark"
-        android:id="@+id/album_shortcut"
-        android:onClick="song_details"
-        tools:ignore="OnClick"
-        android:layout_alignParentBottom="true">
-        <androidx.cardview.widget.CardView
+        android:id="@+id/shortcut_holder"
+        android:layout_alignParentBottom="true"
+        android:onClick="song_details">
+        <include
+
+            layout="@layout/music_shortcut"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:cardCornerRadius="10dp"
-            android:id="@+id/card">
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:id="@+id/art_album_albums"
-                android:src="@drawable/ic_baseline_music_note_24"
-                android:background="@color/white"/>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/name_song_album"
-            android:layout_toRightOf="@+id/card"
-            android:text="song name"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:layout_marginTop="5dp"
-            android:maxLines="1"
-            />
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/name_artist_album"
-            android:text="Artist"
-            android:layout_below="@id/name_song_album"
-            android:layout_toRightOf="@+id/card"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:maxLines="1"
-            />
-
-        <ImageView
-            android:id="@+id/playbutton_album"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_baseline_pause_circle_filled_24"
-            android:onClick="playbtn"
-            tools:ignore="OnClick" />
-
-        <ImageView
-            android:id="@+id/skipbutton_album"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="5dp"
-            android:layout_toLeftOf="@+id/playbutton"
-            android:onClick="skip"
-            android:src="@drawable/ic_baseline_skip_next_24"
-            tools:ignore="OnClick" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@drawable/playertop"
-            android:layout_alignParentBottom="true"/>
-
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
+
 
 
 </RelativeLayout>

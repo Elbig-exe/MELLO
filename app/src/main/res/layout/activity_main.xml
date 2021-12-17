@@ -8,90 +8,54 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/maintoolbar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/shuffle_btn"
+        android:onClick="playshuffel"
+        android:background="@color/dark">
+        <androidx.cardview.widget.CardView
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@color/orange"
+            app:cardCornerRadius="25dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PLAY SHUFFLE"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/shuffle_btn"
         android:layout_above="@+id/shortcut">
-
-
     </FrameLayout>
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="70dp"
-       android:background="@color/dark"
-       android:layout_above="@+id/nav_bar"
-       android:id="@+id/shortcut"
-       android:onClick="song_details">
-       <androidx.cardview.widget.CardView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_marginLeft="10dp"
-           android:layout_marginTop="5dp"
-           android:layout_marginBottom="5dp"
-           app:cardCornerRadius="10dp"
-           android:id="@+id/card">
-           <ImageView
-               android:layout_width="60dp"
-               android:layout_height="60dp"
-               android:id="@+id/art_album"
-               android:src="@drawable/ic_baseline_music_note_24"
-               android:background="@color/white"/>
-       </androidx.cardview.widget.CardView>
 
-       <TextView
-           android:layout_width="200dp"
-           android:layout_height="wrap_content"
-           android:id="@+id/name_song"
-           android:layout_toRightOf="@+id/card"
-           android:text="song name"
-           android:layout_marginLeft="10dp"
-           android:textColor="@color/white"
-           android:textSize="18dp"
-           android:layout_marginTop="5dp"
-           android:maxLines="1"
-           />
-       <TextView
-           android:layout_width="200dp"
-           android:layout_height="wrap_content"
-           android:id="@+id/name_artist"
-           android:text="Artist"
-           android:layout_below="@id/name_song"
-           android:layout_toRightOf="@+id/card"
-           android:layout_marginLeft="10dp"
-           android:layout_marginTop="5dp"
-           android:textColor="@color/white"
-           android:textSize="16sp"
-           android:maxLines="1"
-           />
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/nav_bar"
+    android:id="@+id/shortcut"
+    android:onClick="song_details">
+    <include
+        layout="@layout/music_shortcut"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+</RelativeLayout>
 
-       <ImageView
-           android:id="@+id/playbutton"
-           android:layout_width="30dp"
-           android:layout_height="30dp"
-           android:layout_alignParentRight="true"
-           android:layout_marginTop="20dp"
-           android:layout_marginRight="10dp"
-           android:src="@drawable/ic_baseline_pause_circle_filled_24"
-           android:onClick="playbtn"/>
-
-       <ImageView
-           android:id="@+id/skipbutton"
-           android:layout_width="30dp"
-           android:layout_height="30dp"
-           android:layout_marginTop="20dp"
-           android:layout_marginRight="5dp"
-           android:layout_toLeftOf="@+id/playbutton"
-           android:onClick="skip"
-           android:src="@drawable/ic_baseline_skip_next_24" />
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="20dp"
-           android:background="@drawable/playertop"
-           android:layout_alignParentBottom="true"/>
-
-   </RelativeLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         app:itemIconTint="@drawable/bottom_navigation_selector"

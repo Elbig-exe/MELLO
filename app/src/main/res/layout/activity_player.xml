@@ -62,10 +62,9 @@
             app:cardCornerRadius="10dp">
 
             <ImageView
-                android:id="@+id/song_img"
+                android:id="@+id/art"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_baseline_person_24" />
         </androidx.cardview.widget.CardView>
@@ -134,7 +133,8 @@
             android:id="@+id/replay"
             android:src="@drawable/ic_baseline_repeat_24"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:onClick="replayClicked"/>
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -143,6 +143,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
+            android:onClick="shuffutClicked"
             />
     </RelativeLayout>
     <RelativeLayout
